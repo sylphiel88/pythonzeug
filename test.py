@@ -73,6 +73,7 @@ def getScoreString(p):
 # this handles the key events
 
     # the first one the enter key event (take number) and sets the current player to the other value
+    # 
 
 def enterKeyPressed(event):
     global currPly, p1Label, players
@@ -519,8 +520,11 @@ def startGame():
     values.pop(0)
 
 def newGame():
+    global win, currPly
     players[0].scr=0
     players[1].scr=0
+    win=False
+    currPly=True
     p1Label.config(text=players[0].name + ': ' + str(players[0].scr))
     p2Label.config(text=players[1].name + ': ' + str(players[1].scr))
     winLabel.config(text='')
@@ -660,7 +664,6 @@ calcColor()
 setColors()
 
 
-
-# start the programs mainloop and thus start the game
+# start the tkinter mainloop and thus start the game
 
 root.mainloop()
