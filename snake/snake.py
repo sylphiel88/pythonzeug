@@ -2,6 +2,7 @@ from threading import Timer,Thread,Event
 from tkinter import Tk, Label,PhotoImage,Canvas
 from threading import Timer
 import random
+from PIL import Image, ImageTk
 
 class snake:
     def __init__(self):
@@ -52,10 +53,10 @@ class snake:
                 self.deleteImages(mainFields)
                 self.placeSnake(mainFields)
         if self.fields[0][0] == 0 or self.fields[0][0] == 29 or self.fields[0][1] == 0 or self.fields[0][1] == 24:
-            gameOverL = Canvas(root,bg='grey')
-            gameOverL.place(x=425,y=200)
-            gameOverL.create_image(10,10,image=PhotoImage(file='sn_go.png'))
-            t.cancel()
+            imP = PhotoImage(file='sn_go.png')
+            imL = Label(image=imP,bg='grey')
+            imL.image=imP
+            imL.place(x=250,y=250)
 
 class Fruit:
     def __init__(self):
