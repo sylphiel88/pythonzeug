@@ -34,14 +34,14 @@ class snake:
     def collisonControll(self, mainField):
         global currFruit, fruitEaten
         c = 0
-        for i in range(self.len):
+        for i in range(len(self.fields)):
             if self.fields[0]==self.fields[i]:
                 c+=1
-            if c==2:
-                gameOverL = Label()
-                gameOverP = PhotoImage(file='sn_go.png')
-                gameOverL.configure(image=gameOverP)
-                gameOverL.place(x=425,y=200)
+            if c==2:            
+                imP = PhotoImage(file='sn_go.png')
+                imL = Label(image=imP,bg='grey')
+                imL.image=imP
+                imL.place(x=320,y=325)
                 t.cancel()
         if self.fields[0][0] == currFruit.x and self.fields[0][1]==currFruit.y:
             mainFields[currFruit.x][currFruit.y].configure(image='')
@@ -56,7 +56,9 @@ class snake:
             imP = PhotoImage(file='sn_go.png')
             imL = Label(image=imP,bg='grey')
             imL.image=imP
-            imL.place(x=250,y=250)
+            imL.place(x=320,y=325)
+            t.cancel()
+            
 
 class Fruit:
     def __init__(self):
@@ -69,6 +71,8 @@ class Fruit:
 
 
 speed = 0.1
+firstthreetimes = 0
+target = 2
 
 root = Tk()
 root.title('Snake')
@@ -113,64 +117,123 @@ class InfiniteTimer():
 atleastonemove = False
 
 def timeout():
-    global atleastonemove, fruitEaten
-    if theSnake.dir=='w':
-        theSnake.deleteImages(mainFields)
-        if fruitEaten==True:
-            fruitEaten=False
-            theSnake.len+=1
-            print(theSnake.len)
-        else:
-            theSnake.fields.pop(theSnake.len-1)
-        tempx=theSnake.fields[0][0]-1
-        tempy=theSnake.fields[0][1]
-        theSnake.fields.insert(0,[tempx,tempy])
-        theSnake.placeSnake(mainFields)
-        atleastonemove = True
-        theSnake.collisonControll(mainFields)
-    if theSnake.dir=='e':
-        theSnake.deleteImages(mainFields)
-        if fruitEaten==True:
-            fruitEaten=False
-            theSnake.len+=1
-            print(theSnake.len)
-        else:
-            theSnake.fields.pop(theSnake.len-1)  
-        tempx=theSnake.fields[0][0]+1
-        tempy=theSnake.fields[0][1]
-        theSnake.fields.insert(0,[tempx,tempy])
-        theSnake.placeSnake(mainFields)
-        atleastonemove = True
-        theSnake.collisonControll(mainFields)
-    if theSnake.dir=='n':
-        theSnake.deleteImages(mainFields)
-        if fruitEaten==True:
-            fruitEaten=False
-            theSnake.len+=1
-            print(theSnake.len)
-        else:
-            theSnake.fields.pop(theSnake.len-1)
-        tempx=theSnake.fields[0][0]
-        tempy=theSnake.fields[0][1]-1
-        theSnake.fields.insert(0,[tempx,tempy])
-        theSnake.placeSnake(mainFields)
-        atleastonemove = True
-        theSnake.collisonControll(mainFields)
-    if theSnake.dir=='s':
-        theSnake.deleteImages(mainFields)
-        if fruitEaten==True:
-            fruitEaten=False
-            theSnake.len+=1
-            print(theSnake.len)
-        else:
-            theSnake.fields.pop(theSnake.len-1)
-        tempx=theSnake.fields[0][0]
-        tempy=theSnake.fields[0][1]+1
-        theSnake.fields.insert(0,[tempx,tempy])
-        theSnake.placeSnake(mainFields)
-        atleastonemove = True
-        theSnake.collisonControll(mainFields)
-    
+    global atleastonemove, fruitEaten, theSnake, firstthreetimes, target
+    if firstthreetimes<target:
+        firstthreetimes+=1
+    else:
+        if theSnake.dir=='w':
+            if fruitEaten==True:
+                fruitEaten=False
+                theSnake.len+=1
+            else:
+                tempx=theSnake.fields[theSnake.len-1][0]
+                tempy=theSnake.fields[theSnake.len-1][1]
+                mainFields[tempx][tempy].configure(image='')
+                mainFields[tempx][tempy].image=''
+                theSnake.fields.pop(theSnake.len-1)
+                tempx=theSnake.fields[len(theSnake.fields)-1][0]
+                tempy=theSnake.fields[len(theSnake.fields)-1][1]
+                img = PhotoImage(file='sn_tail.png')
+                mainFields[tempx][tempy].configure(image=img)
+                mainFields[tempx][tempy].image=img
+            tempx=theSnake.fields[0][0]
+            tempy=theSnake.fields[0][1]
+            img = PhotoImage(file='sn_body.png')
+            mainFields[tempx][tempy].configure(image=img)
+            mainFields[tempx][tempy].image=img
+            tempx=theSnake.fields[0][0]-1
+            tempy=theSnake.fields[0][1]
+            img = PhotoImage(file='sn_head.png')
+            mainFields[tempx][tempy].configure(image=img)
+            mainFields[tempx][tempy].image=img  
+            theSnake.fields.insert(0,[tempx,tempy])
+            atleastonemove = True
+            theSnake.collisonControll(mainFields)
+        if theSnake.dir=='e':
+            if fruitEaten==True:
+                fruitEaten=False
+                theSnake.len+=1
+            else:
+                tempx=theSnake.fields[theSnake.len-1][0]
+                tempy=theSnake.fields[theSnake.len-1][1]
+                mainFields[tempx][tempy].configure(image='')
+                mainFields[tempx][tempy].image=''
+                theSnake.fields.pop(theSnake.len-1)
+                tempx=theSnake.fields[len(theSnake.fields)-1][0]
+                tempy=theSnake.fields[len(theSnake.fields)-1][1]
+                img = PhotoImage(file='sn_tail.png')
+                mainFields[tempx][tempy].configure(image=img)
+                mainFields[tempx][tempy].image=img
+            tempx=theSnake.fields[0][0]
+            tempy=theSnake.fields[0][1]
+            img = PhotoImage(file='sn_body.png')
+            mainFields[tempx][tempy].configure(image=img)
+            mainFields[tempx][tempy].image=img
+            tempx=theSnake.fields[0][0]+1
+            tempy=theSnake.fields[0][1]
+            img = PhotoImage(file='sn_head.png')
+            mainFields[tempx][tempy].configure(image=img)
+            mainFields[tempx][tempy].image=img  
+            theSnake.fields.insert(0,[tempx,tempy])
+            atleastonemove = True
+            theSnake.collisonControll(mainFields)
+        if theSnake.dir=='n':
+            if fruitEaten==True:
+                fruitEaten=False
+                theSnake.len+=1
+            else:
+                tempx=theSnake.fields[theSnake.len-1][0]
+                tempy=theSnake.fields[theSnake.len-1][1]
+                mainFields[tempx][tempy].configure(image='')
+                mainFields[tempx][tempy].image=''
+                theSnake.fields.pop(theSnake.len-1)
+                tempx=theSnake.fields[len(theSnake.fields)-1][0]
+                tempy=theSnake.fields[len(theSnake.fields)-1][1]
+                img = PhotoImage(file='sn_tail.png')
+                mainFields[tempx][tempy].configure(image=img)
+                mainFields[tempx][tempy].image=img
+            tempx=theSnake.fields[0][0]
+            tempy=theSnake.fields[0][1]
+            img = PhotoImage(file='sn_body.png')
+            mainFields[tempx][tempy].configure(image=img)
+            mainFields[tempx][tempy].image=img
+            tempx=theSnake.fields[0][0]
+            tempy=theSnake.fields[0][1]-1
+            img = PhotoImage(file='sn_head.png')
+            mainFields[tempx][tempy].configure(image=img)
+            mainFields[tempx][tempy].image=img  
+            theSnake.fields.insert(0,[tempx,tempy])
+            atleastonemove = True
+            theSnake.collisonControll(mainFields)
+        if theSnake.dir=='s':
+            if fruitEaten==True:
+                fruitEaten=False
+                theSnake.len+=1
+            else:
+                tempx=theSnake.fields[theSnake.len-1][0]
+                tempy=theSnake.fields[theSnake.len-1][1]
+                mainFields[tempx][tempy].configure(image='')
+                mainFields[tempx][tempy].image=''
+                theSnake.fields.pop(theSnake.len-1)
+                tempx=theSnake.fields[len(theSnake.fields)-1][0]
+                tempy=theSnake.fields[len(theSnake.fields)-1][1]
+                img = PhotoImage(file='sn_tail.png')
+                mainFields[tempx][tempy].configure(image=img)
+                mainFields[tempx][tempy].image=img
+            tempx=theSnake.fields[0][0]
+            tempy=theSnake.fields[0][1]
+            img = PhotoImage(file='sn_body.png')
+            mainFields[tempx][tempy].configure(image=img)
+            mainFields[tempx][tempy].image=img
+            tempx=theSnake.fields[0][0]
+            tempy=theSnake.fields[0][1]+1
+            img = PhotoImage(file='sn_head.png')
+            mainFields[tempx][tempy].configure(image=img)
+            mainFields[tempx][tempy].image=img
+            theSnake.fields.insert(0,[tempx,tempy])
+            atleastonemove = True
+            theSnake.collisonControll(mainFields)
+        
 
 
 t = InfiniteTimer(speed, timeout)
@@ -182,6 +245,7 @@ def keypressedW(event):
     if (theSnake.dir=='w' or theSnake.dir=='e') and atleastonemove:
         theSnake.dir = 'n'
         atleastonemove = False
+        theSnake.collisonControll(mainFields)
 
 def keypressedS(event):
     global atleastonemove
