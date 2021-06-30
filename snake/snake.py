@@ -55,7 +55,6 @@ class snake:
             imL.place(x=320,y=325)
             t.cancel()
             
-
 class Fruit:
     def __init__(self):
         self.x = random.randint(1,28)
@@ -64,7 +63,6 @@ class Fruit:
         img = PhotoImage(file='sn_fruit.png')
         mainFields[self.x][self.y].configure(image=img)
         mainFields[self.x][self.y].image=img
-
 
 speed = 0.1
 threadjumper = 0
@@ -76,7 +74,6 @@ root.config(bg='black')
 root.geometry('850x775')
 
 class InfiniteTimer():
-    """A Timer class that does not stop, unless you want it to."""
 
     def __init__(self, seconds, target):
         self._should_continue = False
@@ -101,14 +98,14 @@ class InfiniteTimer():
             self._should_continue = True
             self._start_timer()
         else:
-            print("Timer already started or running, please wait if you're restarting.")
+            print('Timer already started or running, please wait if you\'re restarting.')
 
     def cancel(self):
         if self.thread is not None:
             self._should_continue = False # Just in case thread is running and cancel fails.
             self.thread.cancel()
         else:
-            print("Timer never started or failed to initialize.")
+            print('Timer never started or failed to initialize.')
 
 atleastonemove = False
 
@@ -230,8 +227,6 @@ def timeout():
             atleastonemove = True
             theSnake.collisonControll(mainFields)
         
-
-
 t = InfiniteTimer(speed, timeout)
 t.start()
 
@@ -268,16 +263,13 @@ root.bind('s', keypressedS)
 root.bind('a', keypressedA)
 root.bind('d', keypressedD)
 
-heading = Label(bg="#000000", text='Snake', fg='#FFFFFF')
+heading = Label(bg='#000000', text='Snake', fg='#FFFFFF')
 heading.place(x=0,y=0, width=850,height=50)
 
 mainField = Label(bg='#555555', text='')
 mainField.place(x=50, y=50, width=752, height=627)
 
-
-
 mainFields = [[]]
-
 
 for i in range(30):
     tempFields = []
