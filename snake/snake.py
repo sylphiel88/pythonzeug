@@ -1,8 +1,6 @@
-from threading import Timer,Thread,Event
-from tkinter import Tk, Label,PhotoImage,Canvas
 from threading import Timer
+from tkinter import Tk, Label,PhotoImage
 import random
-from PIL import Image, ImageTk
 
 class snake:
     def __init__(self):
