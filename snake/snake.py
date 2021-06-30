@@ -48,8 +48,6 @@ class snake:
             while [currFruit.x,currFruit.y] in self.fields:
                 currFruit=Fruit()
                 currFruit.paint(mainFields)
-                self.deleteImages(mainFields)
-                self.placeSnake(mainFields)
         if self.fields[0][0] == 0 or self.fields[0][0] == 29 or self.fields[0][1] == 0 or self.fields[0][1] == 24:
             imP = PhotoImage(file='sn_go.png')
             imL = Label(image=imP,bg='grey')
@@ -69,8 +67,8 @@ class Fruit:
 
 
 speed = 0.1
-firstthreetimes = 0
-target = 2
+threadjumper = 0
+target = 3
 
 root = Tk()
 root.title('Snake')
@@ -115,9 +113,9 @@ class InfiniteTimer():
 atleastonemove = False
 
 def timeout():
-    global atleastonemove, fruitEaten, theSnake, firstthreetimes, target
-    if firstthreetimes<target:
-        firstthreetimes+=1
+    global atleastonemove, fruitEaten, theSnake, threadjumper, target
+    if threadjumper<target:
+        threadjumper+=1
     else:
         if theSnake.dir=='w':
             if fruitEaten==True:
